@@ -14,6 +14,50 @@
     
     <!-- 메뉴바 -->
     <jsp:include page="../include/header.jsp" />
+    
+    <!-- 
+   		사용자가 id를 입력하는 input요소에 무언가 값을 입력할 때마다
+   		아이디가 중복인지 검사하여 출력해주기
+      -->
+      <!-- <div style="width: 800px; margin : auto; height: 400px;"></div> -->
+    <script>
+    	window.onload = function(){
+	    	const inputEl = document.querySelector('#signup-form > #userId');
+	    	//console.log(inputEl);
+	    	
+	    	inputEl.addEventListener('keyup', ()=>{
+	    		
+	    		const inputValue = inputEl.value;
+	    		//console.log(inputValue);
+	    		
+	    		if(inputValue.length >= 5){
+	    			
+		    		$.ajax({
+		    			url : `id-check?memberId=\${inputValue}`,
+		    			type : 'GET',
+		    			success : function(result){
+		    				//console.log(result);
+		    				
+		    				// NNNNN / NNNNY
+		    				// 없을때 / 있을때
+		    				const responseData = result.substr(4);
+		    				
+		    				if(responseData === 'Y'){
+		    					$('#checkResult').show().css('color', 'crimson').text('사용할 수 없는 아이디입니다.');
+		    				}else{
+		    					$('#checkResult').show().css('color', 'blue').text('정말 멋진 아이디네요!!');
+		    				}
+		    					
+		    			}
+		    		});
+		    		
+	    		} else{
+	    			$('#checkResult').hide();
+	    		}
+	    		
+	    	});
+    	}
+    </script>
 
     <div class="content">
         <br><br>
@@ -22,9 +66,10 @@
             <br>
 
             <form action="signup" method="post">
-                <div class="form-group">
+                <div class="form-group" id="signup-form">
                     <label for="userId">* ID : </label>
                     <input type="text" class="form-control" id="userId" placeholder="Please Enter ID" name="memberId" required> <br>
+                    <div id="checkResult" style="font-size:0.7em; display:none;"></div><br>
 
                     <label for="userPwd">* Password : </label>
                     <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="memberPw" required> <br>

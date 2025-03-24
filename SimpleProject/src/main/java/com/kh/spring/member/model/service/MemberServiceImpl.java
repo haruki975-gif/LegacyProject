@@ -166,6 +166,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	
+	// 아이디 중복 체크
+	@Override
+	public String idCheck(String memberId) {
+		//String result =
+		return memberMapper.idCheck(memberId) != null ? "NNNNY" : "NNNNN";
+	}
 	
 	
 	

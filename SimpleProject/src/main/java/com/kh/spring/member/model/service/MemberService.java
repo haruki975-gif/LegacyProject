@@ -24,6 +24,8 @@ public interface MemberService {
 	// 1절 끝
 	
 	// 아이디 중복체크
+	String idCheck(String memberId);
+	
 	
 	// 2절
 	

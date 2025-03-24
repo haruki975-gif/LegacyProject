@@ -23,5 +23,7 @@ public interface MemberMapper {
 	@Delete("DELETE FROM KH_MEMBER WHERE MEMBER_PW = #{memberPw}")
 	int delete(MemberDTO member);
 	
-	
+	// 아이디 중복체크
+	@Select("SELECT MEMBER_ID FROM KH_MEMBER WHERE MEMBER_ID = #{memberId}")
+	String idCheck(String memberId);
 }

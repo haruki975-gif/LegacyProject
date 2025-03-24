@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.dto.MemberDTO;
@@ -269,9 +270,16 @@ public class MemberController {
 		return "main_page";
 	}
 	
-	
-	
-	
+	@ResponseBody
+	@GetMapping("id-check")
+	public String idCheck(@RequestParam(name="memberId") String memberId) {
+		// 응답을 어떻게 돌려줄 것인가?
+		// 조회 결과가 있다/없다
+		//     NNNNY/NNNNN
+		
+		return memberService.idCheck(memberId);
+		// SELECT DECODE(MEMBER_ID) FROM KH_MEMBER WHERE MEMBER_ID = 사용자가입력한아이디
+	}
 	
 	
 	
