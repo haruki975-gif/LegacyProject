@@ -157,9 +157,18 @@
 	</script>
 	
 	
+	<hr>
 	
+	<h3>VO단일 객체 조회해서 출력해보기</h3>
+	<div>
+		댓글 번호 : <p id="title"></p>
+		댓글 작성자 : <p id="writer"></p>
+		댓글 내용 : <p id="content"></p>
+		댓글 작성일 : <p id="date"></p>
+	</div>
 	
-	
+	댓글 번호 : <input type="text" id="replyNo">
+	<button onclick="selectReply()">댓글보여주세용</button>	
 	
 	
 	
