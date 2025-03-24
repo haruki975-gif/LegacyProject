@@ -47,7 +47,8 @@ public interface BoardService {
 	void deleteBoard(int boardNo);
 	
 	// ----------------1절
-	// 게시글 검색 기능
+	// 게시글 검색 기능 (페이징 처리도 해야 해서 반환 타입을 Map으로 받음)
+	Map<String, Object> doSearch(Map<String, String> map);
 	
 	// 댓글 작성
 	

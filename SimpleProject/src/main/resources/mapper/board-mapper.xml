@@ -73,52 +73,97 @@
 			replyNo DESC
 	</select>
 	
-	<!-- 이렇게 줄맞추는거 유지보수 힘들어짐 -->
-	<resultMap id="boardResultSet" type="com.kh.spring.board.model.dto.BoardDTO">
-		<id column="boardNo" property="boardNo" />
+	<!-- 이렇게 줄맞추는거 유지보수 힘들어짐 하지마셈 -->
+	<resultMap id="boardResultSet"
+			   type="com.kh.spring.board.model.dto.BoardDTO">
+		<id     column="boardNo"         property="boardNo" />
 		<result column="boardTitle"      property="boardTitle" />
 		<result column="boardContent"    property="boardContent" />
 		<result column="boardWriter"     property="boardWriter" />
-		<result column="createDate" property="boardCreateDate" />
-		<result column="changeName"      property="changeName" />
-		<!-- 1:N 관계에서는 collection, column=컬럼명, property=필드명 -->
-		<collection property="replyList" ofType="com.kh.spring.reply.model.dto.ReplyDTO">
+	    <result column="boardCreateDate" property="createDate" />
+	    <result column="changeName"      property="changeName" />
+		<collection property="replyList" ofType="com.kh.spring.reply.model.dto.ReplyDTO" >
 			<id column="replyNo" property="replyNo" />
 			<result column="replyWriter" property="replyWriter" />
 			<result column="replyContent" property="replyContent" />
-			<result column="refBoardNo" property="refBoardNo"/>
-			<result column="createDate" property="replyCreateDate"/>
+			<result column="refBoardNo" property="refBoardNo" />
+			<result column="replyCreateDate" property="createDate" />
 		</collection>
 	</resultMap>
 	
-	<select id="selectBoardAndReply" 
-			parameterType="_int" 
+	<select id="selectBoardAndReply"
+			parameterType="_int"
 			resultMap="boardResultSet">
 		SELECT
-				  BOARD_NO boradNo
-				, BOARD_TITLE boardTitle
-				, BOARD_CONTENT boardContent
-				, BOARD_WRITER boardWriter
-				, TB_SPRING_BOARD.CREATE_DATE boardCreateDate
-				, CHANGE_NAME changeName
-				, REPLY_NO replyNo
-				, REPLY_WRITER replyWriter
-				, REPLY_CONTENT replyContent
-				, REF_BOARD_NO refBoardNo
-				, TB_REPLY.CREATE_DATE replyCreateDate
+			   BOARD_NO boardNo
+		     , BOARD_TITLE boardTitle
+		     , BOARD_CONTENT boardContent
+		     , BOARD_WRITER boardWriter
+		     , TB_SPRING_BOARD.CREATE_DATE boardCreateDate
+		     , CHANGE_NAME changeName
+		     , REPLY_NO replyNo
+		     , REPLY_WRITER replyWriter
+		     , REPLY_CONTENT replyContent
+		     , REF_BOARD_NO refBoardNo
+		     , TB_REPLY.CREATE_DATE replyCreateDate
 		  FROM
-				TB_SPRING_BOARD 
-	 LEFT JOIN
-				TB_REPLY ON (BOARD_NO = REF_BOARD_NO)
-	 	 WHERE
-				BOARD_NO = #{boardNo}
-	
+		       TB_SPRING_BOARD
+		  LEFT
+		  JOIN
+		       TB_REPLY ON (BOARD_NO = REF_BOARD_NO)
+		 WHERE
+		       BOARD_NO = #{boardNo}
 	</select>
 	
 	
+	<!-- 검색 -->
+	<select id="searchedCount" parameterType="hashmap" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		TB_SPRING_BOARD
+		 WHERE
+		 		STATUS = 'Y'
+		 
+		 <if test="condition == 'writer'">
+		   AND
+		   		BOARD_WRITER
+		 </if>
+		 <if test="condition == 'title'">
+		   AND
+		   		BOARD_TITLE
+		 </if>
+		 <if test="condition == 'content'">
+		   AND
+		   		BOARD_CONTENT
+		 </if> 
+		   		LIKE '%' || #{keyword} || '%'
+	</select>
 	
-	
-	
+	<select id="selectSearchList" 
+			parameterType="hashmap" 
+			resultType="com.kh.spring.board.model.dto.BoardDTO">
+		<include refid="boardColumn"/>
+		FROM
+			TB_SPRING_BOARD
+	   WHERE
+	   		STATUS = 'Y'
+	   <choose>
+	   		<when test="condition == 'writer'">
+	   			AND BOARD_WRITER
+	   		</when>
+	   		<when test="condition == 'content'">
+	   			AND BOARD_CONTENT
+	   		</when>
+	   		<otherwise>
+	   			AND BOARD_TITLE
+	   		</otherwise>
+	   </choose>	
+	   			LIKE '%' || #{keyword} || '%'
+	   	ORDER
+	   	   BY 
+	   			BOARD_NO DESC
+	</select>
 	
 	
 	

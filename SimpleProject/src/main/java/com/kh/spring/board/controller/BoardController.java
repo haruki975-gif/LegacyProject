@@ -1,5 +1,6 @@
 package com.kh.spring.board.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -88,7 +89,29 @@ public class BoardController {
 		return mv;
 	}
 	
-	
+	// 게시판 검색 search
+	@GetMapping("search")
+	public ModelAndView doSearch(
+			@RequestParam(name="condition") String condition, 
+			@RequestParam(name="keyword") String keyword,
+			@RequestParam(name="page", defaultValue="1") int page,
+			ModelAndView mv) {
+		
+		Map<String, String> map = new HashMap();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		// int -> String으로 변환 > String.valueOf()
+		map.put("currentPage", String.valueOf(page));
+		
+		Map<String, Object> list = boardService.doSearch(map);
+		// model로 condition과 keyword를 넘겨줘야함(검색 후 페이징 처리 유지)
+		list.put("condition", condition);
+		list.put("keyword", keyword);
+		
+		// 포워딩 작업
+		mv.addObject("map", list).setViewName("board/board_list");
+		return mv;
+	}
 	
 	
 	
