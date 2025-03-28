@@ -191,7 +191,13 @@ public class BoardServiceImpl implements BoardService {
 		return returnValue;
 	}
 
-	
+	// 댓글작성
+	public int insertReply(ReplyDTO reply, HttpSession session) {
+		String memberId = ((MemberDTO)session.getAttribute("loginMember")).getMemberId();
+		reply.setReplyWriter(memberId);
+		// SEQ_REPLY_NO / SEQ_RNO
+		return boardMapper.insertReply(reply);
+	}
 	
 	
 	

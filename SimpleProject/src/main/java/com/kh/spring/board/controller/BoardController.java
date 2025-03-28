@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.board.model.dto.BoardDTO;
 import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.exception.InvalidParameterException;
+import com.kh.spring.reply.model.dto.ReplyDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -114,7 +116,12 @@ public class BoardController {
 	}
 	
 	
-	
+	@ResponseBody
+	@PostMapping("reply")
+	public String insertReply(ReplyDTO reply, HttpSession session) {
+		log.info("{}", reply);
+		return String.valueOf(boardService.insertReply(reply, session));
+	}
 	
 	
 	

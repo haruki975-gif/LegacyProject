@@ -58,18 +58,4 @@ public class MemberValidator {
 		}
 		throw new MemberNotFoundException("존재하지 않는 아이디입니다.");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

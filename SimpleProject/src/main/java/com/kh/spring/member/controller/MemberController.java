@@ -211,6 +211,7 @@ public class MemberController {
 		return "member/my_page";
 	}
 	
+	
 	@PostMapping("update-member")
 	public String update(MemberDTO member, HttpSession session) {
 		// 1. Controller에서는 RequestMapping 애노테이션 및 요청 시 전달값이 잘 전달되는지 확인

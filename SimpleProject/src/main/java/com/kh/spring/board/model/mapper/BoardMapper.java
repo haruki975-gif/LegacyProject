@@ -38,6 +38,7 @@ public interface BoardMapper {
 	
 	List<BoardDTO> selectSearchList(Map<String, String> map, RowBounds rb);
 	
-	
+	// 댓글작성
+	int insertReply(ReplyDTO reply);
 	
 }

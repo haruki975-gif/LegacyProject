@@ -1,9 +1,14 @@
 package com.kh.spring.ajax;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.kh.spring.board.model.dto.BoardDTO;
+import com.kh.spring.board.model.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,4 +42,54 @@ public class AjaxController {
 		
 		return returnValue;
 	}
+	
+	
+	
+	private final BoardService boardService;
+	
+	@Autowired
+	public AjaxController(BoardService boardService) {
+		this.boardService = boardService;
+	}
+	
+	@ResponseBody
+	@GetMapping(value="study", produces="application/json; charset=UTF-8")
+	public ResponseEntity<BoardDTO> ajaxStudy(@RequestParam("replyNo") int boardNo) {
+		
+		/*
+		 * DTO의 목적 == 테이블의 행에 있는 컬럼의 값을 필드에 담아옴
+		 * 
+		 * BoardDTO
+		 * 
+		 * boardTitle == 머시기
+		 * boardContent == 머시기
+		 * boardWriter == 머시기
+		 * * 자바스크립트에서 값을 사용하려면 객체 형태여야함.
+		 * 
+		 * <boardTitle>제목입니당</boardTitle> => XML
+		 * 
+		 * {
+		 * 	"boardTitle" : "제목",
+		 * 	"boardContent" : "내용",
+		 *  "boardWriter" : "글쓴이"
+		 * }
+		 * => JSON
+		 */
+		BoardDTO board = boardService.selectBoard(boardNo);
+		//log.info("게시글 봐야지 : {}", board);
+		return ResponseEntity.ok(board);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

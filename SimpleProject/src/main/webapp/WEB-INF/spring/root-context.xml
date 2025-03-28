@@ -41,7 +41,9 @@
 	 	SqlSession sqlSession = new SqlSessionTemplate(sqlSessionFactory)
 	  -->
 	  
-	  <mybatis-spring:scan base-package="com.kh.spring.member.model.dao, com.kh.spring.board.model.mapper"/>
+	  <mybatis-spring:scan base-package="com.kh.spring.member.model.dao, 
+										  com.kh.spring.board.model.mapper, 
+										  com.kh.spring.busan.model.mapper"/>
 	  
 	  
 	  <!-- 파일업로드 관련 빈 등록 -->
@@ -49,25 +51,5 @@
 	  	<property name="maxUploadSize" value="100000000" />
 	  	<property name="maxInMemorySize" value="10000000" />
 	  </bean>
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
 
 </beans>
